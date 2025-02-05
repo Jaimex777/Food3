@@ -56,19 +56,148 @@
             padding: 10px 0;
             box-sizing: border-box;
         }
+        .form-container input, .form-container button {
+            margin: 10px;
+            padding: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            padding: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .login-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+        }
+        .login-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
     <h1>Lista de Restaurantes</h1>
+    <button onclick="showLogin()">Iniciar Sesión</button>
     <div class="restaurant-container">
-        <div class="restaurant-card" onclick="alert('Restaurante Italiano')">
-            <img src="https://source.unsplash.com/400x200/?restaurant-italian" class="restaurant-image">
+        <div class="restaurant-card" onclick="showMenu('italiano')">
+            <img src="https://source.unsplash.com/400x200/?restaurant-italian" alt="Restaurante Italiano" class="restaurant-image">
             <div class="restaurant-name">Restaurante Italiano</div>
         </div>
-        <div class="restaurant-card" onclick="alert('Restaurante Mexicano')">
-            <img src="https://source.unsplash.com/400x200/?restaurant-mexican" class="restaurant-image">
+        <div class="restaurant-card" onclick="showMenu('mexicano')">
+            <img src="https://source.unsplash.com/400x200/?restaurant-mexican" alt="Restaurante Mexicano" class="restaurant-image">
             <div class="restaurant-name">Restaurante Mexicano</div>
         </div>
     </div>
+
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <h2>Iniciar Sesión</h2>
+            <input type="text" id="username" placeholder="Usuario">
+            <input type="password" id="password" placeholder="Contraseña">
+            <button onclick="login()">Entrar</button>
+            <button onclick="closeLogin()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://mi-restaurante.onrender.com/api';
+
+        let currentUser = null;
+
+        function showLogin() {
+            document.getElementById('loginContainer').style.display = 'flex';
+        }
+
+        function closeLogin() {
+            document.getElementById('loginContainer').style.display = 'none';
+        }
+
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if ((username === 'italiano' && password === '1234') || (username === 'mexicano' && password === '1234')) {
+                currentUser = username;
+                closeLogin();
+                await showMenu(username);
+            } else {
+                alert('Usuario o contraseña incorrectos');
+            }
+        }
+
+        async function showMenu(restaurant) {
+            try {
+                const response = await fetch(`${API_URL}/products/${restaurant}`);
+                if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+                const products = await response.json();
+
+                document.body.innerHTML = `
+                    <h1>Menú - Restaurante ${restaurant.charAt(0).toUpperCase() + restaurant.slice(1)}</h1>
+                    <div class="menu-container">
+                        ${products.length > 0 ? products.map(product => `
+                            <div class="menu-item">
+                                <img src="${product.image_url}" alt="${product.name}" class="menu-image">
+                                <div class="menu-details">
+                                    <p class="menu-name">${product.name}</p>
+                                    <p class="menu-price">${product.price}</p>
+                                    ${currentUser === restaurant ? `<button class="delete-btn" onclick="deleteProduct('${restaurant}', ${product.id})">Eliminar</button>` : ''}
+                                </div>
+                            </div>
+                        `).join('') : '<p>No hay productos disponibles.</p>'}
+                    </div>
+                    ${currentUser === restaurant ? `
+                    <h2>Agregar Nuevo Producto</h2>
+                    <div class="form-container">
+                        <input type="text" id="productName" placeholder="Nombre del producto">
+                        <input type="text" id="productPrice" placeholder="Precio">
+                        <input type="text" id="productImage" placeholder="URL de la imagen">
+                        <button onclick="addProduct('${restaurant}')">Agregar Producto</button>
+                    </div>` : ''}
+                    <button onclick="location.reload()">Volver</button>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`No se pudo cargar el menú. Detalles del error: ${error.message}`);
+            }
+        }
+
+        async function addProduct(restaurant) {
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const image_url = document.getElementById('productImage').value;
+
+            await fetch(`${API_URL}/products`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ restaurant, name, price, image_url })
+            });
+
+            showMenu(restaurant);
+        }
+
+        async function deleteProduct(restaurant, productId) {
+            await fetch(`${API_URL}/products/${restaurant}/${productId}`, {
+                method: 'DELETE'
+            });
+
+            showMenu(restaurant);
+        }
+    </script>
 </body>
 </html>
