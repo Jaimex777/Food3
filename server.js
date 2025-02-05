@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const multer = require('multer');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,8 +12,20 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
+app.use('/uploads', express.static('uploads'));
 
 const DATA_FILE = './data.json';
+
+// Configuración de multer para guardar imágenes
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
 
 function readData() {
     if (fs.existsSync(DATA_FILE)) {
@@ -47,10 +60,11 @@ app.get('/api/products/:restaurant', (req, res) => {
     }
 });
 
-app.post('/api/products', (req, res) => {
-    const { restaurant, name, price, image_url } = req.body;
-    const data = readData();
+app.post('/api/products', upload.single('image'), (req, res) => {
+    const { restaurant, name, price } = req.body;
+    const image_url = req.file ? `/uploads/${req.file.filename}` : '/uploads/default.png';
 
+    const data = readData();
     let restaurantData = data.restaurants.find(r => r.name === restaurant);
     if (!restaurantData) {
         restaurantData = { name: restaurant, products: [] };
