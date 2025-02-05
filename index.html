@@ -1,209 +1,209 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Restaurantes</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        h1, h2 {
-            text-align: center;
-            margin: 20px 0;
-        }
-        .restaurant-container, .menu-container, .form-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
-        }
-        .restaurant-card, .menu-item {
-            width: 90%;
-            max-width: 400px;
-            margin: 10px 0;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            position: relative;
-        }
-        .restaurant-card:hover, .menu-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        }
-        .restaurant-image, .menu-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .restaurant-name, .menu-name {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            padding: 10px 0;
-            box-sizing: border-box;
-        }
-        .form-container input, .form-container button {
-            margin: 10px;
-            padding: 10px;
-            width: 90%;
-            max-width: 400px;
-        }
-        .delete-btn {
-            background-color: red;
-            color: white;
-            padding: 5px;
-            border: none;
-            cursor: pointer;
-        }
-        .login-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            justify-content: center;
-        }
-        .login-box {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Restaurantes</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+background-color: #f9f9f9;
+color: #333;
+}
+h1, h2 {
+text-align: center;
+margin: 20px 0;
+}
+.restaurant-container, .menu-container, .form-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 10px;
+}
+.restaurant-card, .menu-item {
+width: 90%;
+max-width: 400px;
+margin: 10px 0;
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+background-color: #fff;
+text-align: center;
+transition: transform 0.2s, box-shadow 0.2s;
+cursor: pointer;
+position: relative;
+}
+.restaurant-card:hover, .menu-item:hover {
+transform: translateY(-5px);
+box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+.restaurant-image, .menu-image {
+width: 100%;
+height: 200px;
+object-fit: cover;
+}
+.restaurant-name, .menu-name {
+position: absolute;
+bottom: 0;
+width: 100%;
+background: rgba(0, 0, 0, 0.6);
+color: white;
+font-size: 20px;
+font-weight: bold;
+padding: 10px 0;
+box-sizing: border-box;
+}
+.form-container input, .form-container button {
+margin: 10px;
+padding: 10px;
+width: 90%;
+max-width: 400px;
+}
+.delete-btn {
+background-color: red;
+color: white;
+padding: 5px;
+border: none;
+cursor: pointer;
+}
+.login-container {
+display: none;
+flex-direction: column;
+align-items: center;
+padding: 20px;
+background: rgba(0, 0, 0, 0.8);
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+justify-content: center;
+}
+.login-box {
+background: white;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+</style>
 </head>
 <body>
-    <h1>Lista de Restaurantes</h1>
-    <button onclick="showLogin()">Iniciar Sesión</button>
-    <div class="restaurant-container">
-        <div class="restaurant-card" onclick="showMenu('italiano')">
-            <img src="https://source.unsplash.com/400x200/?restaurant-italian" alt="Restaurante Italiano" class="restaurant-image">
-            <div class="restaurant-name">Restaurante Italiano</div>
-        </div>
-        <div class="restaurant-card" onclick="showMenu('mexicano')">
-            <img src="https://source.unsplash.com/400x200/?restaurant-mexican" alt="Restaurante Mexicano" class="restaurant-image">
-            <div class="restaurant-name">Restaurante Mexicano</div>
-        </div>
-    </div>
+<h1>Lista de Restaurantes</h1>
+<button onclick="showLogin()">Iniciar Sesión</button>
+<div class="restaurant-container">
+<div class="restaurant-card" onclick="showMenu('italiano')">
+<img src="https://source.unsplash.com/400x200/?restaurant-italian" alt="Restaurante Italiano" class="restaurant-image">
+<div class="restaurant-name">Restaurante Italiano</div>
+</div>
+<div class="restaurant-card" onclick="showMenu('mexicano')">
+<img src="https://source.unsplash.com/400x200/?restaurant-mexican" alt="Restaurante Mexicano" class="restaurant-image">
+<div class="restaurant-name">Restaurante Mexicano</div>
+</div>
+</div>
 
-    <div class="login-container" id="loginContainer">
-        <div class="login-box">
-            <h2>Iniciar Sesión</h2>
-            <input type="text" id="username" placeholder="Usuario">
-            <input type="password" id="password" placeholder="Contraseña">
-            <button onclick="login()">Entrar</button>
-            <button onclick="closeLogin()">Cancelar</button>
-        </div>
-    </div>
+<div class="login-container" id="loginContainer">
+<div class="login-box">
+<h2>Iniciar Sesión</h2>
+<input type="text" id="username" placeholder="Usuario">
+<input type="password" id="password" placeholder="Contraseña">
+<button onclick="login()">Entrar</button>
+<button onclick="closeLogin()">Cancelar</button>
+</div>
+</div>
 
-    <script>
-        const API_URL = 'https://food3-ad0f.onrender.com/api';
+<script>
+const API_URL = 'https://food3-ad0f.onrender.com/api';
 
-        let currentUser = null;
+let currentUser = null;
 
-        function showLogin() {
-            document.getElementById('loginContainer').style.display = 'flex';
-        }
+function showLogin() {
+document.getElementById('loginContainer').style.display = 'flex';
+}
 
-        function closeLogin() {
-            document.getElementById('loginContainer').style.display = 'none';
-        }
+function closeLogin() {
+document.getElementById('loginContainer').style.display = 'none';
+}
 
-        async function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+async function login() {
+const username = document.getElementById('username').value;
+const password = document.getElementById('password').value;
 
-            if ((username === 'italiano' && password === '1234') || (username === 'mexicano' && password === '1234')) {
-                currentUser = username;
-                closeLogin();
-                await showMenu(username);
-            } else {
-                alert('Usuario o contraseña incorrectos');
-            }
-        }
+if ((username === 'italiano' && password === '1234') || (username === 'mexicano' && password === '1234')) {
+currentUser = username;
+closeLogin();
+await showMenu(username);
+} else {
+alert('Usuario o contraseña incorrectos');
+}
+}
 
-        async function showMenu(restaurant) {
-            try {
-                const response = await fetch(`${API_URL}/products/${restaurant}`);
-                if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+async function showMenu(restaurant) {
+try {
+const response = await fetch(`${API_URL}/products/${restaurant}`);
+if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
-                const products = await response.json();
+const products = await response.json();
 
-                document.body.innerHTML = `
-                    <h1>Menú - Restaurante ${restaurant.charAt(0).toUpperCase() + restaurant.slice(1)}</h1>
-                    <div class="menu-container">
-                        ${products.length > 0 ? products.map(product => `
-                            <div class="menu-item">
-                                <img src="${product.image_url}" alt="${product.name}" class="menu-image">
-                                <div class="menu-details">
-                                    <p class="menu-name">${product.name}</p>
-                                    <p class="menu-price">${product.price}</p>
-                                    ${currentUser === restaurant ? `<button class="delete-btn" onclick="deleteProduct('${restaurant}', ${product.id})">Eliminar</button>` : ''}
-                                </div>
-                            </div>
-                        `).join('') : '<p>No hay productos disponibles.</p>'}
-                    </div>
-                    ${currentUser === restaurant ? `
-                    <h2>Agregar Nuevo Producto</h2>
-                    <div class="form-container">
-                        <input type="text" id="productName" placeholder="Nombre del producto">
-                        <input type="text" id="productPrice" placeholder="Precio">
-                        <input type="file" id="productImage" accept="image/*">
-                        <button onclick="addProduct('${restaurant}')">Agregar Producto</button>
-                    </div>` : ''}
-                    <button onclick="window.location.reload()">Volver a la Lista de Restaurantes</button>
-                `;
-            } catch (error) {
-                console.error('Error:', error);
-                alert(`No se pudo cargar el menú. Detalles del error: ${error.message}`);
-            }
-        }
+document.body.innerHTML = `
+<h1>Menú - Restaurante ${restaurant.charAt(0).toUpperCase() + restaurant.slice(1)}</h1>
+<div class="menu-container">
+${products.length > 0 ? products.map(product => `
+<div class="menu-item">
+<img src="${product.image_url}" alt="${product.name}" class="menu-image">
+<div class="menu-details">
+<p class="menu-name">${product.name}</p>
+<p class="menu-price">${product.price}</p>
+${currentUser === restaurant ? `<button class="delete-btn" onclick="deleteProduct('${restaurant}', ${product.id})">Eliminar</button>` : ''}
+</div>
+</div>
+`).join('') : '<p>No hay productos disponibles.</p>'}
+</div>
+${currentUser === restaurant ? `
+<h2>Agregar Nuevo Producto</h2>
+<div class="form-container">
+<input type="text" id="productName" placeholder="Nombre del producto">
+<input type="text" id="productPrice" placeholder="Precio">
+<input type="file" id="productImage" accept="image/*">
+<button onclick="addProduct('${restaurant}')">Agregar Producto</button>
+</div>` : ''}
+<button onclick="window.location.reload()">Volver a la Lista de Restaurantes</button>
+`;
+} catch (error) {
+console.error('Error:', error);
+alert(`No se pudo cargar el menú. Detalles del error: ${error.message}`);
+}
+}
 
-        async function addProduct(restaurant) {
-            const name = document.getElementById('productName').value;
-            const price = document.getElementById('productPrice').value;
-            const imageFile = document.getElementById('productImage').files[0];
+async function addProduct(restaurant) {
+const name = document.getElementById('productName').value;
+const price = document.getElementById('productPrice').value;
+const imageFile = document.getElementById('productImage').files[0];
 
-            const formData = new FormData();
-            formData.append('restaurant', restaurant);
-            formData.append('name', name);
-            formData.append('price', price);
-            if (imageFile) {
-                formData.append('image', imageFile);
-            }
+const formData = new FormData();
+formData.append('restaurant', restaurant);
+formData.append('name', name);
+formData.append('price', price);
+if (imageFile) {
+formData.append('image', imageFile);
+}
 
-            await fetch(`${API_URL}/products`, {
-                method: 'POST',
-                body: formData
-            });
+await fetch(`${API_URL}/products`, {
+method: 'POST',
+body: formData
+});
 
-            showMenu(restaurant);
-        }
+showMenu(restaurant);
+}
 
-        async function deleteProduct(restaurant, productId) {
-            await fetch(`${API_URL}/products/${restaurant}/${productId}`, {
-                method: 'DELETE'
-            });
+async function deleteProduct(restaurant, productId) {
+await fetch(`${API_URL}/products/${restaurant}/${productId}`, {
+method: 'DELETE'
+});
 
-            showMenu(restaurant);
-        }
-    </script>
+showMenu(restaurant);
+}
+</script>
 </body>
 </html>
