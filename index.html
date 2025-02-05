@@ -27,5 +27,37 @@
             <div class="restaurant-name">Restaurante Mexicano</div>
         </div>
     </div>
+
+    <h2>Agregar Nuevo Producto</h2>
+    <div class="form-container">
+        <input type="text" id="productName" placeholder="Nombre del producto">
+        <input type="text" id="productPrice" placeholder="Precio">
+        <input type="file" id="productImage" accept="image/*">
+        <button onclick="addProduct()">Agregar Producto</button>
+    </div>
+
+    <script>
+        const API_URL = 'https://food3-ad0f.onrender.com/api';
+
+        async function addProduct() {
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const imageFile = document.getElementById('productImage').files[0];
+
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('price', price);
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            await fetch(`${API_URL}/products`, {
+                method: 'POST',
+                body: formData
+            });
+
+            alert('Producto agregado exitosamente.');
+        }
+    </script>
 </body>
 </html>
